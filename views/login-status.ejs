@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login Status</title>
+</head>
+
+<body>
+  <h1>Login Status</h1>
+
+  <p>You are
+    <span>
+      <% if (isAuth) { %>
+        Logged in!
+        <% } else { %>
+          NOT logged.
+          <% } %>
+    </span>
+  </p>
+
+  <% if (isAuth) { %>
+    <a href="/logout">Logout</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <% } %>
+
+</body>
+
+</html>
