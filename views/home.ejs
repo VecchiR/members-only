@@ -31,11 +31,16 @@
       <% } else { %>
         <a href="/join-club">Join the club</a>
         <% } %>
+          <% if (currentUser.is_admin) { %>
+            <a href="/admin-panel">Admin Panel</a>
+            <% }%>
 
-          <% } else { %>
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-            <% } %>
+              <% } else { %>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                <% } %>
+
+
 
 </body>
 

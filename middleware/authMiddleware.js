@@ -28,9 +28,17 @@ const redirectMember = (req,res,next) => {
     next();
 };
 
+const requireAdmin = (req, res, next) => {
+    if (req.user.is_admin) {
+        return next();
+    }
+    res.status(403).send('Access Denied: Admins Only');
+};
+
 module.exports = {
     addAuthState,
     requireAuth,
     redirectIfAuthenticated,
-    redirectMember
+    redirectMember,
+    requireAdmin
 };

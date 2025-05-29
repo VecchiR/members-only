@@ -20,11 +20,20 @@ async function makeMember(username) {
   await pool.query("UPDATE users SET is_member = true WHERE username = $1", [username]);
 }
 
+async function updateUserAdminStatus(userId, isAdmin) {
+  const result = await pool.query(
+      "UPDATE users SET is_admin = $2 WHERE id = $1 RETURNING *",
+      [userId, isAdmin]
+  );
+  return result.rows[0];
+}
+
 module.exports = {
   createUser,
   getUserByUsername,
   getUserById,
-  makeMember
+  makeMember,
+  updateUserAdminStatus
 }
 
 /*
