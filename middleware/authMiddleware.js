@@ -1,7 +1,7 @@
 // Add authentication state to all views
 const addAuthState = (req, res, next) => {
     res.locals.isAuthenticated = req.isAuthenticated();
-    res.locals.currentUser = req.user;  // This will add the user object to views if logged in
+    res.locals.currentUser = Array.isArray(req.user) ? req.user[0] : req.user;  // This will add the user object to views if logged in
     next();
 };
 
@@ -21,8 +21,16 @@ const redirectIfAuthenticated = (req, res, next) => {
     next();
 };
 
+const redirectMember = (req,res,next) => {
+    if (req.user.is_member) {
+        return res.redirect('/');
+    }
+    next();
+};
+
 module.exports = {
     addAuthState,
     requireAuth,
-    redirectIfAuthenticated
+    redirectIfAuthenticated,
+    redirectMember
 };

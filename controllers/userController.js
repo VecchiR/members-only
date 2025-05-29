@@ -29,10 +29,29 @@ async function createUser(req, res) {
 
     try {
         await usersDb.createUser(first_name, last_name, username, salt, hash);
-        res.redirect('/register');
+        res.redirect('/');
     } catch (error) {
         console.error(error);
         res.status(500).send("Error creating user");
+    }
+}
+
+async function makeMember(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('join-club', { 
+            errors: errors.array(),
+        });
+    }
+
+    const username = res.locals.currentUser.username;
+
+    try {
+        await usersDb.makeMember(username);
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error making the user a member");
     }
 }
 
@@ -51,7 +70,8 @@ async function createUser(req, res) {
 
 
 module.exports = {
-    createUser
+    createUser,
+    makeMember
 }
 
 

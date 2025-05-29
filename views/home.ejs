@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+</head>
+
+<body>
+  <h1>Home</h1>
+
+  <p>You are
+    <span>
+      <% if (isAuthenticated) { %>
+        Logged in!
+        <% if (currentUser) { %>
+          Welcome, <%= currentUser.username %>!
+            <% } %>
+              <% } else { %>
+                NOT logged in.
+                <% } %>
+    </span>
+  </p>
+
+  <% if (isAuthenticated) { %>
+    <a href="/logout">Logout</a>
+
+
+    <% if (currentUser.is_member) { %>
+      <p>You are a member of the club</p>
+      <% } else { %>
+        <a href="/join-club">Join the club</a>
+        <% } %>
+
+          <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <% } %>
+
+</body>
+
+</html>

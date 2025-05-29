@@ -1,27 +1,30 @@
-const {pool} = require("./pool");
+const { pool } = require("./pool");
 
 
 async function createUser(first_name, last_name, username, salt, hash) {
-    const result = await pool.query("INSERT INTO users (first_name, last_name, username, salt, hash) VALUES ($1, $2, $3, $4, $5) RETURNING id", [first_name, last_name, username, salt, hash]);
-    return result.rows[0].id;
+  const result = await pool.query("INSERT INTO users (first_name, last_name, username, salt, hash) VALUES ($1, $2, $3, $4, $5) RETURNING id", [first_name, last_name, username, salt, hash]);
+  return result.rows[0].id;
 }
 
 async function getUserByUsername(username) {
-    const {rows} = await pool.query("SELECT * FROM users WHERE username = ($1)", [username]);
-    console.log(rows[0]);
-    return rows[0];
+  const { rows } = await pool.query("SELECT * FROM users WHERE username = ($1)", [username]);
+  return rows[0];
 }
 
 async function getUserById(id) {
-    const {rows} = await pool.query("SELECT * FROM users WHERE id = ($1)", [id]);
-    console.log(rows);
-    return rows;
+  const { rows } = await pool.query("SELECT * FROM users WHERE id = ($1)", [id]);
+  return rows;
+}
+
+async function makeMember(username) {
+  await pool.query("UPDATE users SET is_member = true WHERE username = $1", [username]);
 }
 
 module.exports = {
-    createUser,
-    getUserByUsername,
-    getUserById
+  createUser,
+  getUserByUsername,
+  getUserById,
+  makeMember
 }
 
 /*

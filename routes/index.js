@@ -2,10 +2,11 @@ const router = require('express').Router();
 const passport = require('passport');
 const userController = require('../controllers/userController');
 const { registerValidation } = require('../middleware/userValidation');
-const { requireAuth, redirectIfAuthenticated } = require('../middleware/authMiddleware');
+const { requireAuth, redirectIfAuthenticated, redirectMember } = require('../middleware/authMiddleware');
+const { clubValidation } = require('../middleware/clubValidation');
 
 router.get('/', (req, res) => {
-    res.render("login-status");
+    res.render("home");
 });
 
 router.get('/login', redirectIfAuthenticated, (req, res) => {
@@ -31,5 +32,12 @@ router.get('/register', redirectIfAuthenticated, (req, res) => {
 });
 
 router.post('/register', registerValidation, userController.createUser);
+
+
+router.get('/join-club', redirectMember, requireAuth, (req, res) => {
+    res.render("join-club");
+})
+
+router.post('/join-club', requireAuth, clubValidation, userController.makeMember);
 
 module.exports = router;

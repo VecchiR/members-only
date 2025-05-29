@@ -37,7 +37,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((userId, done) => {
     usersDb.getUserById(userId)
         .then((user) => {
-            done(null, user);
+            done(null, Array.isArray(user) ? user[0] : user);
         })
         .catch(err => done(err));
 });
