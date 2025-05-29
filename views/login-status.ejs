@@ -11,19 +11,22 @@
 
   <p>You are
     <span>
-      <% if (isAuth) { %>
+      <% if (isAuthenticated) { %>
         Logged in!
-        <% } else { %>
-          NOT logged.
-          <% } %>
+        <% if (currentUser) { %>
+          Welcome, <%= currentUser.username %>!
+        <% } %>
+      <% } else { %>
+        NOT logged in.
+      <% } %>
     </span>
   </p>
 
-  <% if (isAuth) { %>
+  <% if (isAuthenticated) { %>
     <a href="/logout">Logout</a>
-    <% } else { %>
-      <a href="/login">Login</a>
-      <% } %>
+  <% } else { %>
+    <a href="/login">Login</a>
+  <% } %>
 
 </body>
 
