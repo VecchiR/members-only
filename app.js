@@ -9,6 +9,8 @@ const routes = require('./routes');
 const { pool } = require('./config/pool');
 const { addAuthState } = require('./middleware/authMiddleware');
 const pgSession = require('connect-pg-simple')(session);
+const flash = require('connect-flash');
+
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
+
+app.use(flash());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

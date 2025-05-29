@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
@@ -10,26 +11,27 @@
     }
   </style>
 </head>
+
 <body>
   <h1>Login</h1>
 
-  <% if (typeof errors !== 'undefined') { %>
+
+  <% if (error && error.length> 0) { %>
     <div class="error">
-      <% errors.forEach(error => { %>
-        <p><%= error.msg %></p>
-      <% }); %>
+      <%= error %>
     </div>
-  <% } %>
+    <% } %>
 
-  <form action="/login" method="POST">
-    <label for="username">Username</label>
-    <input id="username" name="username" placeholder="Username" type="text"
-           value="<%= typeof user !== 'undefined' ? user.username : '' %>"/>
+      <form action="/login" method="POST">
+        <label for="username">Username</label>
+        <input id="username" name="username" placeholder="Username" type="text"
+          value="<%= typeof user !== 'undefined' ? user.username : '' %>" />
 
-    <label for="password">Password</label>
-    <input id="password" name="password" placeholder="Password" type="password" />
+        <label for="password">Password</label>
+        <input id="password" name="password" placeholder="Password" type="password" />
 
-    <button type="submit">Login</button>
-  </form>
+        <button type="submit">Login</button>
+      </form>
 </body>
+
 </html>

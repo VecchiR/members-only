@@ -11,12 +11,14 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', redirectIfAuthenticated, (req, res) => {
-    res.render("login-form");
+    res.render('login-form', {
+        error: req.flash('error')
+    });
 });
 
-router.post('/login', passport.authenticate('local', { 
-    failureRedirect: '/', 
-    successRedirect: '/' 
+router.post('/login', passport.authenticate('local', {
+    failureRedirect: '/login', failureFlash: 'Invalid username or password.',
+    successRedirect: '/'
 }));
 
 router.get('/logout', (req, res, next) => {
