@@ -1,7 +1,64 @@
 const postsDb = require('../config/postQueries');
+const { validationResult } = require('express-validator');
 
 
 
+async function listAllPosts(req, res, next) {
+    try {
+        const posts = await postsDb.getAllPosts();
+        res.render('home', {
+            posts
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+async function getPostCreationForm(req, res, next) {
+    res.render("create-post-form");
+};
+
+async function createPost(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('create-post-form', { 
+            errors: errors.array(),
+            post: {
+                title: req.body.title,
+                message: req.body.message
+            }
+        });
+    }
+
+    const userId = req.user.id;
+    const title = req.body.title;
+    const message = req.body.message;
+
+    try {
+        await postsDb.createPost(title, message, userId);
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error creating post");
+    }
+};
+
+async function deletePost(req, res, next) {
+    try {
+        await postsDb.deletePost(req.params.postId);
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error deleting post");
+    }
+}
+
+module.exports = {
+    listAllPosts,
+    getPostCreationForm,
+    createPost,
+    deletePost
+}
 
 
 

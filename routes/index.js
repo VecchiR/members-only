@@ -1,14 +1,12 @@
 const router = require('express').Router();
 const passport = require('passport');
-const userController = require('../controllers/userController');
-const adminController = require('../controllers/adminController');
 const { registerValidation } = require('../middleware/userValidation');
 const { requireAuth, redirectIfAuthenticated, redirectMember, requireAdmin } = require('../middleware/authMiddleware');
 const { clubValidation } = require('../middleware/clubValidation');
+const { postValidation } = require('../middleware/postValidation');
+const { userController, postController, adminController } = require('../controllers');
 
-router.get('/', (req, res) => {
-    res.render("home");
-});
+router.get('/', postController.listAllPosts);
 
 router.get('/login', redirectIfAuthenticated, (req, res) => {
     res.render('login-form', {
@@ -42,6 +40,13 @@ router.get('/join-club', redirectMember, requireAuth, (req, res) => {
 })
 
 router.post('/join-club', requireAuth, clubValidation, userController.makeMember);
+
+router.get('/create-post', requireAuth, postController.getPostCreationForm);
+
+router.post('/create-post', requireAuth, postValidation, postController.createPost);
+
+router.post("/:postId/delete", requireAuth, requireAdmin, postController.deletePost);
+
 
 // Admin Panel Routes
 router.get('/admin-panel', requireAuth, requireAdmin, adminController.getAdminPanel);

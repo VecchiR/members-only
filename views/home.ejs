@@ -12,35 +12,38 @@
   <p>You are
     <span>
       <% if (isAuthenticated) { %>
-        Logged in!
-        <% if (currentUser) { %>
-          Welcome, <%= currentUser.username %>!
-            <% } %>
-              <% } else { %>
-                NOT logged in.
-                <% } %>
+      Logged in!
+      <% if (currentUser) { %>
+      Welcome, <%= currentUser.username %>!
+      <% } %>
+      <% } else { %>
+      NOT logged in.
+      <% } %>
     </span>
   </p>
 
   <% if (isAuthenticated) { %>
-    <a href="/logout">Logout</a>
+  <a href="/logout">Logout</a>
+  <a href="/create-post">Create Post</a>
 
 
-    <% if (currentUser.is_member) { %>
-      <p>You are a member of the club</p>
-      <% } else { %>
-        <a href="/join-club">Join the club</a>
-        <% } %>
-          <% if (currentUser.is_admin) { %>
-            <a href="/admin-panel">Admin Panel</a>
-            <% }%>
+  <% if (currentUser.is_member) { %>
+  <p>You are a member of the club</p>
+  <% } else { %>
+  <a href="/join-club">Join the club</a>
+  <% } %>
+  <% if (currentUser.is_admin) { %>
+  <a href="/admin-panel">Admin Panel</a>
+  <% }%>
 
-              <% } else { %>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
-                <% } %>
+  <% } else { %>
+  <a href="/login">Login</a>
+  <a href="/register">Register</a>
+  <% } %>
 
-
+  <% posts.forEach((post)=> { %>
+  <%- include('partials/post', {post}); %>
+  <% }); %>
 
 </body>
 

@@ -1,11 +1,26 @@
-const pool = require("./pool");
+const { pool } = require("./pool");
 
 
-/*
-async function getAllGames() {
-  const { rows } = await pool.query("SELECT * FROM games");
+async function getAllPosts() {
+  const { rows } = await pool.query("SELECT posts.id, posts.author_id, posts.title, posts.message, posts.created_at, users.username FROM posts JOIN users ON posts.author_id = users.id ORDER BY created_at DESC");
   return rows;
 }
+
+async function createPost(title, message, userId) {
+  await pool.query("INSERT INTO posts (title, message, author_id) VALUES ($1, $2, $3)", [title, message, userId]);
+}
+
+async function deletePost(postId) {
+  await pool.query("DELETE FROM posts WHERE id = ($1)", [postId]);
+}
+
+module.exports = {
+  getAllPosts,
+  createPost,
+  deletePost
+}
+
+/*
 
 async function getGame(gameId) {
   const { rows } = await pool.query(`SELECT * FROM games WHERE id = ($1)`, [gameId]);
